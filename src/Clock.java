@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 public class Clock extends JPanel implements Runnable {
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("MMMMM ss, yyyy");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MMMMM, dd, yyyy");
     SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
     SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss a");
     String date = dateFormat.format(Calendar.getInstance().getTime());
@@ -18,7 +18,26 @@ public class Clock extends JPanel implements Runnable {
     static JLabel dayLabel = new JLabel();
     static JLabel timeLabel = new JLabel();
 
-    void setTime() {
+    Clock() {
+
+        this.setLayout(new FlowLayout());
+        this.setSize(390, 290);
+
+        this.add(timeLabel);
+        timeLabel.setFont(new Font("Gothic", Font.PLAIN, 50));
+        timeLabel.setForeground(Color.GREEN);
+        timeLabel.setBackground(Color.BLACK);
+        timeLabel.setOpaque(true);
+
+        this.add(dayLabel);
+        dayLabel.setFont(new Font("verdana", Font.BOLD, 40));
+
+        this.add(dateLabel);
+        dateLabel.setFont(new Font("verdana", Font.PLAIN, 40));
+    }
+
+    @Override
+    public void run() {
         while (true) {
             date = dateFormat.format(Calendar.getInstance().getTime());
             dateLabel.setText(date);
@@ -29,33 +48,8 @@ public class Clock extends JPanel implements Runnable {
             time = timeFormat.format(Calendar.getInstance().getTime());
             timeLabel.setText(time);
 
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            try {Thread.sleep(1000);}
+            catch (InterruptedException e) {throw new RuntimeException(e);}
         }
-    }
-
-    @Override
-    public void run() {
-        setTime();
-    }
-
-    Clock() {
-
-        this.setLayout(new FlowLayout());
-
-        this.add(timeLabel);
-        timeLabel.setFont(new Font("Verdana", Font.PLAIN, 50));
-        timeLabel.setForeground(Color.GREEN);
-        timeLabel.setBackground(Color.BLACK);
-        timeLabel.setOpaque(true);
-
-        this.add(dayLabel);
-        dayLabel.setFont(new Font("InkFree", Font.BOLD, 25));
-
-        this.add(dateLabel);
-        dateLabel.setFont(new Font("InkFree", Font.PLAIN, 25));
     }
 }
